@@ -6,15 +6,16 @@ on:
 jobs:
   calistir:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Repo indir
         uses: actions/checkout@v3
 
-      - name: Dosyaları listele
-        run: ls -la
+      - name: Basit test
+        run: echo "WORKFLOW CALISTI"
 
-      - name: Python versiyon
+      - name: Python kontrol
         run: python --version
 
       - name: main.py çalıştır
