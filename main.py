@@ -1,1 +1,1 @@
-print("SADECE BU YAZI GÖRÜNMELİ")
+print("BOT BASLADI")
