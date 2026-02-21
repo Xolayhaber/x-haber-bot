@@ -1,16 +1,16 @@
 name: Xolayhaber Bot
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 */6 * * *"   # 6 saatte bir çalışır
-  workflow_dispatch:       # Manuel çalıştırma da mümkün
+    - cron: "0 */6 * * *"
 
 jobs:
   calistir:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Kodları indir
+      - name: Kodu indir
         uses: actions/checkout@v3
 
       - name: Python kur
