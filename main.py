@@ -1,2 +1,0 @@
-print("TEST BASLADI")
-exit()
