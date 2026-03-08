@@ -8,5 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test mesajı
-        run: echo "SISTEM CALISTI"
+      - name: Repo indir
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Python çalıştır
+        run: python main.py
