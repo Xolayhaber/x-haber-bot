@@ -1,0 +1,5 @@
+https://feeds.bbci.co.uk/news/technology/rss.xml
+https://www.reutersagency.com/feed/?best-topics=technology
+https://apnews.com/hub/technology?utm_source=rss
+https://www.coindesk.com/arc/outboundfeeds/rss/
+https://www.aa.com.tr/tr/rss/default?cat=teknoloji
