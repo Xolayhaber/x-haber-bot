@@ -1,5 +1,8 @@
-https://feeds.bbci.co.uk/news/technology/rss.xml
-https://www.reutersagency.com/feed/?best-topics=technology
-https://apnews.com/hub/technology?utm_source=rss
-https://www.coindesk.com/arc/outboundfeeds/rss/
 https://www.aa.com.tr/tr/rss/default?cat=teknoloji
+https://www.aa.com.tr/tr/rss/default?cat=ekonomi
+https://www.trthaber.com/sondakika.rss
+https://www.trthaber.com/teknoloji.rss
+https://www.trthaber.com/ekonomi.rss
+https://www.ntv.com.tr/teknoloji.rss
+https://www.ntv.com.tr/ekonomi.rss
+https://www.ntv.com.tr/son-dakika.rss
