@@ -13,7 +13,11 @@ def ozetle(metin):
 news = get_news()
 
 for n in news[:5]:
-    ozet = ozetle(n.get("summary", ""))
+
+    # summary yoksa title kullan
+    metin = n.get("summary") if n.get("summary") else n["title"]
+
+    ozet = ozetle(metin)
 
     tweet = f"""📰 SON DAKİKA
 
