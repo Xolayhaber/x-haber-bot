@@ -5,7 +5,12 @@ print("BOT BASLADI")
 news = get_news()
 
 for n in news[:5]:
-    print("HABER:")
-    print(n["title"])
-    print(n["link"])
-    print("------")
+    tweet = f"""📰 SON DAKİKA
+
+{n["title"]}
+
+Kaynak: {n["link"]}
+"""
+
+    print("------ TWEET ------")
+    print(tweet)
