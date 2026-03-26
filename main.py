@@ -20,10 +20,15 @@ def kaliteli_mi(metin):
         "açıkladı",
         "karar",
         "duyurdu",
-        "yasak",
-        "onay",
         "gelişme",
-        "zam",
+        "yeni",
+        "başladı",
+        "arttı",
+        "azaldı",
+        "teknoloji",
+        "ekonomi",
+        "yapay zeka",
+        "savunma",
         "deprem",
         "indirim"
     ]
@@ -31,7 +36,7 @@ def kaliteli_mi(metin):
     for kelime in anahtarlar:
         if kelime in metin.lower():
             return True
-    return False
+    return True  # ← fallback (hiç filtreleme yapma)
 
 # daha önce paylaşılanlar
 try:
