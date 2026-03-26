@@ -1,5 +1,6 @@
 from news_fetcher import get_news
 import subprocess
+import urllib.parse
 
 print("BOT BASLADI")
 
@@ -15,28 +16,7 @@ def temiz_mi(metin):
 
 # kalite filtresi
 def kaliteli_mi(metin):
-    anahtarlar = [
-        "son dakika",
-        "açıkladı",
-        "karar",
-        "duyurdu",
-        "gelişme",
-        "yeni",
-        "başladı",
-        "arttı",
-        "azaldı",
-        "teknoloji",
-        "ekonomi",
-        "yapay zeka",
-        "savunma",
-        "deprem",
-        "indirim"
-    ]
-
-    for kelime in anahtarlar:
-        if kelime in metin.lower():
-            return True
-    return True  # ← fallback (hiç filtreleme yapma)
+    return True
 
 # daha önce paylaşılanlar
 try:
@@ -56,27 +36,27 @@ for n in news:
     if not temiz_mi(n["title"]):
         continue
 
-    if not kaliteli_mi(n["title"]):
-        continue
-
-    tweet = f"""📰 SON DAKİKA
+    tweet_text = f"""📰 SON DAKİKA
 
 {n["title"]}
 
 Kaynak: {n["link"]}
 """
 
-    print("------ TWEET ------")
-    print(tweet)
+    tweet_url = "https://twitter.com/intent/tweet?text=" + urllib.parse.quote(tweet_text)
+
+    print("------ PAYLAŞ ------")
+    print(tweet_text)
+    print("👉 Tıkla ve paylaş:", tweet_url)
 
     yeni_linkler.append(n["link"])
 
-# yeni linkleri kaydet
+# kaydet
 with open("posted_links.txt", "a") as f:
     for link in yeni_linkler:
         f.write(link + "\n")
 
-# github'a kaydet
+# github commit
 subprocess.run(["git", "config", "--global", "user.email", "bot@github.com"])
 subprocess.run(["git", "config", "--global", "user.name", "bot"])
 subprocess.run(["git", "add", "posted_links.txt"])
