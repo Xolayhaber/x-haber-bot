@@ -1,4 +1,5 @@
 from news_fetcher import get_news
+import subprocess
 
 print("BOT BASLADI")
 
@@ -20,7 +21,6 @@ except:
     posted = set()
 
 news = get_news()
-
 yeni_linkler = []
 
 for n in news:
@@ -29,7 +29,6 @@ for n in news:
         continue
 
     if not temiz_mi(n["title"]):
-        print("❌ Filtre:", n["title"])
         continue
 
     tweet = f"""📰 SON DAKİKA
@@ -48,3 +47,11 @@ Kaynak: {n["link"]}
 with open("posted_links.txt", "a") as f:
     for link in yeni_linkler:
         f.write(link + "\n")
+
+# GITHUB'A KAYDET
+subprocess.run(["git", "config", "--global", "user.email", "bot@github.com"])
+subprocess.run(["git", "config", "--global", "user.name", "bot"])
+
+subprocess.run(["git", "add", "posted_links.txt"])
+subprocess.run(["git", "commit", "-m", "update posted links"])
+subprocess.run(["git", "push"])
