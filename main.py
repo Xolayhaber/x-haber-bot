@@ -14,9 +14,12 @@ def temiz_mi(metin):
             return False
     return True
 
-# kalite filtresi
-def kaliteli_mi(metin):
-    return True
+# özet (basit ama etkili)
+def ozetle(metin):
+    kelimeler = metin.split()
+    if len(kelimeler) > 10:
+        return " ".join(kelimeler[:10]) + "..."
+    return metin
 
 # daha önce paylaşılanlar
 try:
@@ -36,18 +39,22 @@ for n in news:
     if not temiz_mi(n["title"]):
         continue
 
-    tweet_text = f"""📰 SON DAKİKA
+    # özet için summary varsa onu kullan
+    metin = n.get("summary") if n.get("summary") else n["title"]
+    ozet = ozetle(metin)
 
-{n["title"]}
+    tweet_text = f"""📰 {n["title"]}
 
-Kaynak: {n["link"]}
+{ozet}
+
+🔗 Kaynak: {n["link"]}
 """
 
     tweet_url = "https://twitter.com/intent/tweet?text=" + urllib.parse.quote(tweet_text)
 
     print("------ PAYLAŞ ------")
     print(tweet_text)
-    print("👉 Tıkla ve paylaş:", tweet_url)
+    print("👉", tweet_url)
 
     yeni_linkler.append(n["link"])
 
