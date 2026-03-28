@@ -14,7 +14,7 @@ def temiz_mi(metin):
             return False
     return True
 
-# özet (basit ama etkili)
+# özetleme
 def ozetle(metin):
     kelimeler = metin.split()
     if len(kelimeler) > 10:
@@ -37,15 +37,27 @@ for n in news:
         continue
 
     if not temiz_mi(n["title"]):
+        print("❌ Filtre:", n["title"])
         continue
 
-    # özet için summary varsa onu kullan
+    # özet için summary varsa kullan
     metin = n.get("summary") if n.get("summary") else n["title"]
     ozet = ozetle(metin)
 
-    tweet_text = f"""📰 {n["title"]}
+    # eğer özet başlıkla aynıysa kaldır
+    if ozet.lower() == n["title"].lower():
+        ozet = ""
+
+    # tweet oluştur
+    if ozet:
+        tweet_text = f"""📰 {n["title"]}
 
 {ozet}
+
+🔗 Kaynak: {n["link"]}
+"""
+    else:
+        tweet_text = f"""📰 {n["title"]}
 
 🔗 Kaynak: {n["link"]}
 """
@@ -58,12 +70,12 @@ for n in news:
 
     yeni_linkler.append(n["link"])
 
-# kaydet
+# yeni linkleri kaydet
 with open("posted_links.txt", "a") as f:
     for link in yeni_linkler:
         f.write(link + "\n")
 
-# github commit
+# github'a kaydet
 subprocess.run(["git", "config", "--global", "user.email", "bot@github.com"])
 subprocess.run(["git", "config", "--global", "user.name", "bot"])
 subprocess.run(["git", "add", "posted_links.txt"])
