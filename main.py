@@ -1,8 +1,11 @@
 from news_fetcher import get_news
 import subprocess
-import urllib.parse
+import requests
 
 print("BOT BASLADI")
+
+BOT_TOKEN = "xolayhaber_bot"
+CHAT_ID = "182475703"
 
 # yasaklı kelimeler
 with open("banned_words.txt", "r") as f:
@@ -21,6 +24,15 @@ def ozetle(metin):
         return " ".join(kelimeler[:10]) + "..."
     return metin
 
+# telegram gönder
+def telegram_gonder(mesaj):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    data = {
+        "chat_id": CHAT_ID,
+        "text": mesaj
+    }
+    requests.post(url, data=data)
+
 # daha önce paylaşılanlar
 try:
     with open("posted_links.txt", "r") as f:
@@ -37,45 +49,38 @@ for n in news:
         continue
 
     if not temiz_mi(n["title"]):
-        print("❌ Filtre:", n["title"])
         continue
 
-    # özet için summary varsa kullan
     metin = n.get("summary") if n.get("summary") else n["title"]
     ozet = ozetle(metin)
 
-    # eğer özet başlıkla aynıysa kaldır
     if ozet.lower() == n["title"].lower():
         ozet = ""
 
-    # tweet oluştur
     if ozet:
-        tweet_text = f"""📰 {n["title"]}
+        mesaj = f"""📰 {n["title"]}
 
 {ozet}
 
-🔗 Kaynak: {n["link"]}
+🔗 {n["link"]}
 """
     else:
-        tweet_text = f"""📰 {n["title"]}
+        mesaj = f"""📰 {n["title"]}
 
-🔗 Kaynak: {n["link"]}
+🔗 {n["link"]}
 """
 
-    tweet_url = "https://twitter.com/intent/tweet?text=" + urllib.parse.quote(tweet_text)
-
-    print("------ PAYLAŞ ------")
-    print(tweet_text)
-    print("👉", tweet_url)
+    print("GÖNDERİLDİ:", n["title"])
+    telegram_gonder(mesaj)
 
     yeni_linkler.append(n["link"])
 
-# yeni linkleri kaydet
+# kaydet
 with open("posted_links.txt", "a") as f:
     for link in yeni_linkler:
         f.write(link + "\n")
 
-# github'a kaydet
+# github commit
 subprocess.run(["git", "config", "--global", "user.email", "bot@github.com"])
 subprocess.run(["git", "config", "--global", "user.name", "bot"])
 subprocess.run(["git", "add", "posted_links.txt"])
