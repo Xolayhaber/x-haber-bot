@@ -4,7 +4,7 @@ import requests
 
 print("BOT BASLADI")
 
-BOT_TOKEN = "xolayhaber_bot"
+BOT_TOKEN = "8598345753:AAHOU_uLZogP2ymB8FELvBs5LKWF_w-DagQ"
 CHAT_ID = "182475703"
 
 # yasaklı kelimeler
