@@ -2,6 +2,8 @@ name: Xolayhaber Bot
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"   # her saat çalışır
 
 permissions:
   contents: write
