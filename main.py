@@ -5,7 +5,7 @@ import requests
 print("BOT BASLADI")
 
 BOT_TOKEN = "8598345753:AAHOU_uLZogP2ymB8FELvBs5LKWF_w-DagQ"
-CHAT_ID = "182475703"
+CHAT_ID = "82475703"
 
 # yasaklı kelimeler
 with open("banned_words.txt", "r") as f:
@@ -16,6 +16,13 @@ def temiz_mi(metin):
         if kelime in metin.lower():
             return False
     return True
+
+# nokta kontrolü
+def nokta_ekle(metin):
+    metin = metin.strip()
+    if not metin.endswith((".", "!", "?")):
+        metin += "."
+    return metin
 
 # özetleme
 def ozetle(metin):
@@ -51,6 +58,8 @@ for n in news:
     if not temiz_mi(n["title"]):
         continue
 
+    baslik = nokta_ekle(n["title"])
+
     metin = n.get("summary") if n.get("summary") else n["title"]
     ozet = ozetle(metin)
 
@@ -58,19 +67,22 @@ for n in news:
         ozet = ""
 
     if ozet:
-        mesaj = f"""📰 {n["title"]}
+        ozet = nokta_ekle(ozet)
+
+    if ozet:
+        mesaj = f"""📰 {baslik}
 
 {ozet}
 
 🔗 {n["link"]}
 """
     else:
-        mesaj = f"""📰 {n["title"]}
+        mesaj = f"""📰 {baslik}
 
 🔗 {n["link"]}
 """
 
-    print("GÖNDERİLDİ:", n["title"])
+    print("GÖNDERİLDİ:", baslik)
     telegram_gonder(mesaj)
 
     yeni_linkler.append(n["link"])
